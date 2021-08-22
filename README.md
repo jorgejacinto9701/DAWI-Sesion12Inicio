@@ -1,5 +1,5 @@
 # DAWI-Sesion11Inicio
-### Reportes en Jasper y Report y Spring MV
+### Reportes en Jasper y Report y Spring MVC
 ### Jasper versión 6.16.0
 
 ## Autor ✒️
