@@ -1,5 +1,6 @@
 package com.empresa.entidad;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -48,7 +50,29 @@ public class Disponibilidad {
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUsuario")
-	private Usuario usuario;	
+	private Usuario usuario;
+	
+	
+	@Transient
+	private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+	
+	// Metodos para el ReporteS
+	public String getHoraInicioCadena() {
+		return sdf.format(horaInicio);
+	}
+	
+	public String getHoraFinCadena() {
+		return sdf.format(horaFin);
+	}
+	
+	public String getCicloNombre() {
+		return ciclo.getNombre();
+	}
+	
+	public String getUsuarioNombre() {
+		return usuario.getNombreCompleto();
+	}
+	
 }
 
 

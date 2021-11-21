@@ -62,7 +62,7 @@ public class ConsultaDisponibilidadController {
 			
 			List<Disponibilidad> lista =  disponibilidadService.listaPorCicloHoraInicioAndFin(idCiclo, horaInicio, horaFin); 
 
-			String fileDirectory = request.getServletContext().getRealPath("/WEB-INF/reportes/reporteDisponibilidad.jasper");
+			String fileDirectory = request.getServletContext().getRealPath("/WEB-INF/reportes/reporteDisponibilidadUsuarios.jasper");
 			FileInputStream stream   = new FileInputStream(new File(fileDirectory));
 			
 			Map<String,Object> params = new HashMap<String,Object>();
