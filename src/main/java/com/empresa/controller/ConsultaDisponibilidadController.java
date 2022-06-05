@@ -60,17 +60,22 @@ public class ConsultaDisponibilidadController {
 	public void report(HttpServletRequest request, HttpServletResponse response,int idCiclo, String horaInicio, String horaFin) {
 		try {
 			
-			List<Disponibilidad> lista =  disponibilidadService.listaPorCicloHoraInicioAndFin(idCiclo, horaInicio, horaFin); 
-
+			//PASO 1: Obtener el dataSource que va generar el reporte
+			List<Disponibilidad> lstDisponibilidad = disponibilidadService.listaPorCicloHoraInicioAndFin(idCiclo, horaInicio, horaFin);
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstDisponibilidad);
+			
+			//PASO 2: Obtener el archivo que contiene el diseño del reporte
 			String fileDirectory = request.getServletContext().getRealPath("/WEB-INF/reportes/reporteDisponibilidadUsuarios.jasper");
 			FileInputStream stream   = new FileInputStream(new File(fileDirectory));
 			
+			//PASO 3: Parámetros adicionales(NO hay ninguno)
 			Map<String,Object> params = new HashMap<String,Object>();
-			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lista);
-			  
+			
+			//PASO 4: Enviamos dataSource, diseño y parámetros para generar el PDF
 			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(stream);
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
-
+			
+			//PASO 5: Enviar el PDF generado
 			response.setContentType("application/x-pdf");
 		    response.addHeader("Content-disposition", "attachment; filename=ReporteDisponibilidad.pdf");
 
