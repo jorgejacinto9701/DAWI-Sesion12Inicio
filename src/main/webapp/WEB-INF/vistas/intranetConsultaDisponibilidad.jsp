@@ -53,7 +53,17 @@
 		 	</div>
 		 	<div class="col-md-1">
 		 		<div class="form-group">
-		 			<button id="id_reporte"   type="button" class="btn btn-primary" >Reporte</button>
+		 			<button id="id_reporte"   type="button" class="btn btn-primary" >R.Listado</button>
+		 		</div>
+		 	</div>
+		 	<div class="col-md-1">
+		 		<div class="form-group">
+		 			<button id="id_reporte_grafico_1"   type="button" class="btn btn-primary" >R.Gráfico</button>
+		 		</div>
+		 	</div>
+		 	<div class="col-md-1">
+		 		<div class="form-group">
+		 			<button id="id_reporte_grafico_2"   type="button" class="btn btn-primary" >R.Gráfico</button>
 		 		</div>
 		 	</div>
 		 </div>   
@@ -94,6 +104,16 @@
 
 	$("#id_reporte").click(function(){
 		$("#id_form").attr('action', 'consultaDisponibilidadPdf');
+		$("#id_form").submit();
+	});
+	
+	$("#id_reporte_grafico_1").click(function(){
+		$("#id_form").attr('action', 'consultaReportGraficoPorDiaPdf');
+		$("#id_form").submit();
+	});
+	
+	$("#id_reporte_grafico_2").click(function(){
+		$("#id_form").attr('action', 'consultaReportGraficoPorDiaCicloPdf');
 		$("#id_form").submit();
 	});
 	

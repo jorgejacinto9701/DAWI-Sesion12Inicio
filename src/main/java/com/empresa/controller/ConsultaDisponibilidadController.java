@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.empresa.entidad.Ciclo;
 import com.empresa.entidad.Disponibilidad;
+import com.empresa.entidad.ReporteBean;
 import com.empresa.servicio.CicloService;
 import com.empresa.servicio.DisponibilidadService;
 
@@ -86,5 +87,58 @@ public class ConsultaDisponibilidadController {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	@RequestMapping(value =  "/consultaReportGraficoPorDiaPdf", method = RequestMethod.GET)
+	@ResponseBody
+	public void reportGraficoPorDia(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			
+			List<ReporteBean> lstReporte = disponibilidadService.listaReportePorDia();
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstReporte);
+			
+			String fileDirectory = request.getServletContext().getRealPath("/WEB-INF/reportes/reporteReportGraficoPorDia.jasper");
+			FileInputStream stream   = new FileInputStream(new File(fileDirectory));
+			
+			Map<String,Object> params = new HashMap<String,Object>();
+			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(stream);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+			
+			response.setContentType("application/x-pdf");
+		    response.addHeader("Content-disposition", "attachment; filename=ReporteDisponibilidad.pdf");
+
+			OutputStream outStream = response.getOutputStream();
+			JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	@RequestMapping(value =  "/consultaReportGraficoPorDiaCicloPdf", method = RequestMethod.GET)
+	@ResponseBody
+	public void reportGraficoPorDiaCiclo(HttpServletRequest request, HttpServletResponse response) {
+		try {
+			
+			List<ReporteBean> lstReporte = disponibilidadService.listaReportePorDiaCiclo();
+			JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(lstReporte);
+			
+			String fileDirectory = request.getServletContext().getRealPath("/WEB-INF/reportes/reportGraficoPorDiaCiclo.jasper");
+			FileInputStream stream   = new FileInputStream(new File(fileDirectory));
+			
+			Map<String,Object> params = new HashMap<String,Object>();
+			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(stream);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, params, dataSource);
+			
+			response.setContentType("application/x-pdf");
+		    response.addHeader("Content-disposition", "attachment; filename=ReporteDisponibilidad.pdf");
+
+			OutputStream outStream = response.getOutputStream();
+			JasperExportManager.exportReportToPdfStream(jasperPrint, outStream);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 }
