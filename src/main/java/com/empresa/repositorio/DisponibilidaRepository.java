@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.empresa.entidad.Disponibilidad;
-import com.empresa.entidad.ReporteBean;
 
 public interface DisponibilidaRepository extends JpaRepository<Disponibilidad, Integer>{
 
@@ -15,10 +14,6 @@ public interface DisponibilidaRepository extends JpaRepository<Disponibilidad, I
 	public List<Disponibilidad> listaPorCicloHoraInicioAndFin(int idCiclo, String horaInicio, String horaFin);
 	
 	
-	@Query(value="SELECT new com.empresa.entidad.ReporteBean(d.dia, count(d))  from Disponibilidad d group by d.dia")
-	public List<ReporteBean> listaReportePorDia();
-	
-	@Query(value="SELECT new com.empresa.entidad.ReporteBean(d.dia, d.ciclo.nombre, count(d))  from Disponibilidad d group by d.dia, d.ciclo.nombre")
-	public List<ReporteBean> listaReportePorDiaCiclo();
+
 	
 }
